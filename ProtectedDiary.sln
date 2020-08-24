@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtectedDiary", "ProtectedDiary\ProtectedDiary.csproj", "{D2C2BC0A-F01C-4921-922D-D0F197198D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtectedDiary.Test", "ProtectedDiary.Test\ProtectedDiary.Test.csproj", "{8CD5358C-52EC-46F9-9BCB-C7D30942A7F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2C2BC0A-F01C-4921-922D-D0F197198D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C2BC0A-F01C-4921-922D-D0F197198D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2C2BC0A-F01C-4921-922D-D0F197198D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C2BC0A-F01C-4921-922D-D0F197198D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CD5358C-52EC-46F9-9BCB-C7D30942A7F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD5358C-52EC-46F9-9BCB-C7D30942A7F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD5358C-52EC-46F9-9BCB-C7D30942A7F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD5358C-52EC-46F9-9BCB-C7D30942A7F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
