@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProtectedDiary.TwitterAuth;
 
 namespace ProtectedDiary
 {
@@ -31,7 +34,37 @@ namespace ProtectedDiary
                 builder.AddRazorRuntimeCompilation();
             }
 
+            var twitterConfig = new TwitterConfiguration(Configuration["Twitter:ConsumerKey"], Configuration["Twitter:ConsumerSecret"]);
+            services.AddSingleton(twitterConfig);
+
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddTwitter(options =>
+            {
+                options.ConsumerKey = twitterConfig.ConsumerKey;
+                options.ConsumerSecret = twitterConfig.ConsumerSecret;
+                options.RetrieveUserDetails = true;
+                options.Events.OnCreatingTicket = context =>
+                {
+                    // ユーザーのアクセストークンをClaimに格納
+                    var identity = context.Principal.Identity as ClaimsIdentity;
+                    identity.AddClaim(new Claim(TwitterClaimTypes.AccessToken, context.AccessToken));
+                    identity.AddClaim(new Claim(TwitterClaimTypes.AccessTokenSecret, context.AccessTokenSecret));
+                    return Task.CompletedTask;
+                };
+            })
+            .AddCookie(options =>
+            {
+                // ログインしてなかったときのリダイレクト先(ログイン先)
+                options.LoginPath = "/auth/signin";
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,11 +84,13 @@ namespace ProtectedDiary
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
