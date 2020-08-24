@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,11 +26,12 @@ namespace ProtectedDiary
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = services.AddRazorPages();
-
             if (Env.IsDevelopment())
             {
                 builder.AddRazorRuntimeCompilation();
             }
+
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
