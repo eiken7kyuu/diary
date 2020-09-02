@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProtectedDiary.Data;
 using ProtectedDiary.TwitterAuth;
 
 namespace ProtectedDiary
@@ -65,6 +67,9 @@ namespace ProtectedDiary
                 options.LoginPath = "/auth/signin";
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
+
+            services.AddDbContext<DiaryContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DiaryContext")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
