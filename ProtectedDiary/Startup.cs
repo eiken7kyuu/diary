@@ -60,6 +60,14 @@ namespace ProtectedDiary
                     identity.AddClaim(new Claim(TwitterClaimTypes.AccessTokenSecret, context.AccessTokenSecret));
                     return Task.CompletedTask;
                 };
+
+                options.Events.OnRemoteFailure = context =>
+                {
+                    var appUrl = $"{context.Request.Scheme}://{context.Request.Host}/";
+                    context.Response.Redirect(appUrl);
+                    context.HandleResponse();
+                    return Task.CompletedTask;
+                };
             })
             .AddCookie(options =>
             {

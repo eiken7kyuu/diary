@@ -19,7 +19,7 @@ namespace ProtectedDiary.Pages
 
         public void OnGet()
         {
-
         }
     }
 }
+
