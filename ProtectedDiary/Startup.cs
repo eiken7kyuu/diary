@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProtectedDiary.Data;
+using ProtectedDiary.Services;
 using ProtectedDiary.TwitterAuth;
 
 namespace ProtectedDiary
@@ -30,14 +31,27 @@ namespace ProtectedDiary
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = services.AddRazorPages();
+            var builder = services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Diaries");
+            });
+
             if (Env.IsDevelopment())
             {
                 builder.AddRazorRuntimeCompilation();
             }
 
+            builder.AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/Diaries/Details", "Diaries/{id?}");
+                options.Conventions.AddPageRoute("/Diaries/Edit", "Diaries/{id?}/Edit");
+                options.Conventions.AddPageRoute("/Diaries/Delete", "Diaries/{id?}/Delete");
+            });
+
             var twitterConfig = new TwitterConfiguration(Configuration["Twitter:ConsumerKey"], Configuration["Twitter:ConsumerSecret"]);
             services.AddSingleton(twitterConfig);
+            services.AddTransient<ITwitterApi, TwitterApi>();
+            services.AddTransient<IRelationshipService, RelationshipService>();
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
