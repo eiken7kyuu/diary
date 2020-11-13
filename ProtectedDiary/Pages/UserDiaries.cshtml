@@ -1,0 +1,61 @@
+@page
+@model ProtectedDiary.Pages.UserDiariesModel
+
+@{
+  ViewData["Title"] = "Index";
+}
+
+
+
+@if (Model.Author.Relationship == AuthorRelationship.You || Model.Author.Relationship ==
+  AuthorRelationship.MutualFollowers)
+{
+  <h1>ユーザーの日記一覧</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          @Html.DisplayNameFor(model => model.Diaries[0].Title)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.Diaries[0].CreatedAt)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.Diaries[0].UpdatedAt)
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var diary in Model.Diaries)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => diary.Title)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => diary.CreatedAt)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => diary.UpdatedAt)
+          </td>
+          <td>
+            <a asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id">日記を見る</a>
+          </td>
+          <td>
+            @if (Model.Author.Relationship == AuthorRelationship.You)
+            {
+              <form class="form" asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
+                <delete-button></delete-button>
+              </form>
+            }
+            </td>
+          </tr>
+      }
+    </tbody>
+  </table>
+}
+else
+{
+  <h1>相互フォローでないので見れません</h1>
+}

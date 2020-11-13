@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,48 +8,55 @@
     <link rel="stylesheet" href="~/css/site.css">
     <script defer src="~/js/bundle.js"></script>
 </head>
+
 <body>
+
     <header class="header">
         <div class="container">
-            <a href="#" class="logo"><h1>限定公開日記</h1></a>
-            <nav class="nav">
-                <ul>
-                    @if (this.User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a href="#">投稿</a>
-                        </li>
-                        <li class="nav-item" id="submenu" @@click="openSubmenu" v-click-outside="close">
-                            <a>@this.User.Claims.ScreenName()</a>
-                            <ul class="submenu" :class="{ 'active': isActive }">
-                                <li class="submenu-item">
-                                    <a href="#">日記</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <form method="post" asp-controller="Authentication" asp-action="SignOut">
-                                        <button class="signout-button" type="submit">サインアウト</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a asp-controller="Authentication" asp-action="SignIn">サインイン</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
+            <div class="header-contents">
+                <div class="logo">
+                    <a asp-page="/Index">限定公開日記</a>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a asp-page="/Diaries/New">投稿</a>
+                            </li>
+                            <li class="nav-item" id="submenu" @@click="openSubmenu" v-click-outside="close">
+                                <a>@this.User.Claims.ScreenName()</a>
+                                <ul class="submenu" :class="{ 'active': isActive }">
+                                    <li class="submenu-item">
+                                        <a asp-page="/UserDiaries" asp-route-userId="@this.User.Claims.UserId()">日記</a>
+                                    </li>
+                                    <li class="submenu-item">
+                                        <form method="post" asp-controller="Authentication" asp-action="SignOut">
+                                            <button class="signout-button" type="submit">サインアウト</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Authentication" asp-action="SignIn">サインイン</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <main>
+        <main id="app">
             @RenderBody()
         </main>
     </div>
 
     <footer></footer>
 </body>
+
 </html>

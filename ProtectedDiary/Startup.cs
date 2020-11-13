@@ -43,15 +43,16 @@ namespace ProtectedDiary
 
             builder.AddRazorPagesOptions(options =>
             {
-                options.Conventions.AddPageRoute("/Diaries/Details", "Diaries/{id?}");
-                options.Conventions.AddPageRoute("/Diaries/Edit", "Diaries/{id?}/Edit");
-                options.Conventions.AddPageRoute("/Diaries/Delete", "Diaries/{id?}/Delete");
+                options.Conventions.AddPageRoute("/UserDiaries", "/{userId?}");
+                options.Conventions.AddPageRoute("/Diary", "/{userId?}/diaries/{id?}");
+                options.Conventions.AddPageRoute("/Diaries/Edit", "/diaries/{id?}/Edit");
+                options.Conventions.AddPageRoute("/Diaries/Delete", "/diaries/{id?}/Delete");
             });
 
             var twitterConfig = new TwitterConfiguration(Configuration["Twitter:ConsumerKey"], Configuration["Twitter:ConsumerSecret"]);
             services.AddSingleton(twitterConfig);
             services.AddTransient<ITwitterApi, TwitterApi>();
-            services.AddTransient<IRelationshipService, RelationshipService>();
+            services.AddTransient<IAuthorRequester, AuthorRequester>();
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 

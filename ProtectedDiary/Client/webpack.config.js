@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   mode: 'development',
@@ -26,6 +27,12 @@ module.exports = {
             }
           }
         ]
+      },
+
+      // .vue
+      {
+        test: /\.vue$/,
+        loader: "vue-loader"
       },
 
       // js, ts, tsx
@@ -57,6 +64,8 @@ module.exports = {
     ]
   },
   plugins: [
+    new VueLoaderPlugin(),
+
     new MiniCssExtractPlugin({
       filename: 'css/site.css'
     }),

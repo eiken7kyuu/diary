@@ -1,0 +1,9 @@
+@page
+@model ProtectedDiary.Pages.Diaries.CreateModel
+
+@{
+    ViewData["Title"] = "新規投稿";
+    ViewData["SubmitButtonText"] = "投稿";
+}
+
+<partial name="_DiaryFormPartial" for="Diary" view-data="ViewData" />

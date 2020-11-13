@@ -1,9 +1,14 @@
 namespace ProtectedDiary.Models
 {
-    public enum Author
+    public class Author
     {
-        You,
-        MutualFollowers,
-        NotMutualFollowers,
+        public long Id { get; }
+        public string ScreenName { get; }
+        public string IconUrl { get; }
+
+        public AuthorRelationship Relationship { get; set; }
+
+        public Author(long id, string screenName, string iconUrl) =>
+            (Id, ScreenName, IconUrl) = (id, screenName, iconUrl);
     }
 }

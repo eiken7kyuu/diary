@@ -5,8 +5,8 @@ using ProtectedDiary.Models;
 
 namespace ProtectedDiary.Services
 {
-    public interface IRelationshipService
+    public interface IAuthorRequester
     {
-        Task<Author> DiaryAuthor(long diaryUserId, IEnumerable<Claim> claims);
+        Task<Author> GetAuthor(long userId, IEnumerable<Claim> claims);
     }
 }
