@@ -1,0 +1,95 @@
+$headerColor: #fff;
+
+@mixin submenu-hover() {
+  transition: 0.2s ease-in-out;
+  background-color: #f7f9f9;
+}
+
+.header {
+  background: $headerColor;
+  border-bottom: solid 1px #e6e6e6;
+  box-shadow: 0 0 1px rgba(34, 34, 34, 0.377);
+
+  .header-contents {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 3rem;
+  margin: auto 0;
+}
+
+.submenu {
+  width: 160px;
+  position: absolute;
+  box-shadow: 0 1px 2px rgba(34,34,34,.25), 0 0 1px rgba(34,34,34,.35);
+  border-bottom-style: none;
+  display: none;
+  left: calc(50% - 75px);
+  background-color: $headerColor;
+
+  &::before {
+    position: absolute;
+    top: -6px;
+    right: 50%;
+    background-color: $headerColor;
+    width: 12px;
+    height: 12px;
+    transform: rotate(-135deg);
+    border-right: 1px solid rgba(34,34,34,.1);
+    border-bottom: 1px solid rgba(34,34,34,.1);
+    content: "";
+  }
+
+  &.active {
+    display: block;
+  }
+
+  .submenu-item {
+    font-size: 1.7rem;
+    padding: 3px;
+    position: relative;
+
+    &:hover {
+      @include submenu-hover();
+    }
+
+    .signout-button {
+      text-align: left;
+      background-color: $headerColor;
+      width: 100%;
+      padding: 10px;
+      color: inherit;
+
+      &:hover {
+        @include submenu-hover();
+      }
+    }
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+
+  .nav-item {
+    position: relative;
+    display: inline-block;
+    max-width: 190px;
+    font-size: 2rem;
+    margin: 0 10px;
+
+    > a:hover {
+      text-decoration: underline;
+    }
+
+    a {
+      display: inline-block;
+      width: 100%;
+      padding: 10px;
+    }
+  }
+}
