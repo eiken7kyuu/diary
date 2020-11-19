@@ -2,7 +2,7 @@
 
 <div class="form">
     <validator-group inline-template>
-        <form method="post" v-on:submit="validate">
+        <form id="postForm" method="post" v-on:submit="validate">
             <validator value="@Model?.Title" inline-template>
                 <div class="title-field">
                     <input asp-for="Title" class="input-title" ref="field" v-model="val">
@@ -20,4 +20,6 @@
             </div>
         </form>
     </validator-group>
+
+    <reload-alert></reload-alert>
 </div>
