@@ -42,3 +42,17 @@
     margin-left: 10px;
   }
 }
+
+.posted-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  .posted-header {
+    margin-top: 80px;
+    text-align: center;
+  }
+
+  .posted-buttons {
+    margin-top: 30px;
+    text-align: center;
+  }
+}

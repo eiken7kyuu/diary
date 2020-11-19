@@ -39,7 +39,7 @@ namespace ProtectedDiary.Pages.Diaries
             Diary.UserId = this.User.Claims.UserId();
             _context.Diaries.Add(Diary);
             await _context.SaveChangesAsync();
-            return RedirectToPage("../UserDiaries", new { userId = Diary.UserId });
+            return RedirectToPage("Posted", new { userId = Diary.UserId, id = Diary.Id });
         }
     }
 }
