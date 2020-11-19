@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import "../node_modules/modern-css-reset/dist/reset.min.css";
+@use "../node_modules/modern-css-reset/dist/reset.min.css";
 
 html {
   font-size: 62.5%;
@@ -14,10 +14,10 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-}
 
-a:hover {
-  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 button {
@@ -36,23 +36,31 @@ button {
   margin-left: auto;
 }
 
-.author {
-  display: flex;
-  padding: 0px 0px 10px;
+.button {
+  text-align: center;
+  display: inline-flex;
+  padding: 0.4em 1.5em;
+  font-size: 1.8rem;
+  color: #222222;
+  background: #fff;
+  border-radius: 0.2em;
+  border: solid 1px #e6e6e6;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
 
-  &-icon {
-    border-radius: 50%;
-  }
-
-  &-name {
-    vertical-align: text-bottom;
-  }
-
-  &-detail {
-    margin-left: 10px;
+  &:hover {
+    transition: 0.2s ease-in-out;
+    border-color: #a8abb1;
   }
 }
 
-.diary-createdAt {
-  display: block;
+.button-submit {
+  background: #ffdf6a;
+  border: none;
+  width: 150px;
+
+  &:hover {
+    background: #fad242;
+  }
 }

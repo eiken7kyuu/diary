@@ -52,27 +52,9 @@
 
 .content-field {
   height: 630px;
-
 }
 
 .submit-field {
-  margin-top: 30px;
-  margin-left: auto;
-  width: 150px;
-  height: 40px;
+  margin-top: 25px;
+  text-align: right;
 }
-
-.submit-button {
-  padding: 5px;
-  font-size: 1.8rem;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: #ffdf6a;
-  border-radius: 0.2em;
-
-  &:hover {
-    background: #fad242;
-  }
-}
-

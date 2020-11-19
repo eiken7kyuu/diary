@@ -28,9 +28,11 @@
             </div>
             @if (Model.Author.Relationship == AuthorRelationship.You)
             {
-                <a class="edit-link" asp-page="/Diaries/Edit" asp-route-id="@Model.Diary.Id">編集</a>
+                <div>
+                    <a class="button" asp-page="/Diaries/Edit" asp-route-id="@Model.Diary.Id">編集</a>
+                </div>
             }
-            </section>
+        </section>
 
         <section class="diary-content">@Html.DisplayFor(model => model.Diary.Content)</section>
     }

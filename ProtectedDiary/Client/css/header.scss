@@ -1,6 +1,6 @@
 $headerColor: #fff;
 
-@mixin submenu-hover() {
+@mixin link-hover {
   transition: 0.2s ease-in-out;
   background-color: #f7f9f9;
 }
@@ -54,7 +54,7 @@ $headerColor: #fff;
     position: relative;
 
     &:hover {
-      @include submenu-hover();
+      @include link-hover;
     }
 
     .signout-button {
@@ -65,7 +65,7 @@ $headerColor: #fff;
       color: inherit;
 
       &:hover {
-        @include submenu-hover();
+        @include link-hover;
       }
     }
   }
