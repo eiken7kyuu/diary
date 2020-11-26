@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +41,18 @@ namespace ProtectedDiary
             if (Env.IsDevelopment())
             {
                 builder.AddRazorRuntimeCompilation();
+                services.AddDbContext<DiaryContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("DiaryContext")));
+            }
+            else
+            {
+                var uri = new Uri(Configuration["DATABASE_URL"]);
+                var userInfo = uri.UserInfo.Split(":");
+                (var user, var password) = (userInfo[0], userInfo[1]);
+                var db = Path.GetFileName(uri.AbsolutePath);
+
+                var connStr = $"Host={uri.Host};Port={uri.Port};Database={db};Username={user};Password={password};Enlist=true";
+                services.AddDbContext<DiaryContext>(options => options.UseNpgsql(connStr));
             }
 
             builder.AddRazorPagesOptions(options =>
@@ -49,7 +63,7 @@ namespace ProtectedDiary
                 options.Conventions.AddPageRoute("/Diaries/Delete", "/diaries/{id?}/Delete");
             });
 
-            var twitterConfig = new TwitterConfiguration(Configuration["Twitter:ConsumerKey"], Configuration["Twitter:ConsumerSecret"]);
+            var twitterConfig = new TwitterConfiguration(Configuration["ConsumerKey"], Configuration["ConsumerSecret"]);
             services.AddSingleton(twitterConfig);
             services.AddTransient<ITwitterApi, TwitterApi>();
             services.AddTransient<IAuthorRequester, AuthorRequester>();
@@ -78,7 +92,7 @@ namespace ProtectedDiary
 
                 options.Events.OnRemoteFailure = context =>
                 {
-                    var appUrl = $"{context.Request.Scheme}://{context.Request.Host}/";
+                    var appUrl = $"https://{context.Request.Host}/";
                     context.Response.Redirect(appUrl);
                     context.HandleResponse();
                     return Task.CompletedTask;
@@ -90,9 +104,6 @@ namespace ProtectedDiary
                 options.LoginPath = "/auth/signin";
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
-
-            services.AddDbContext<DiaryContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DiaryContext")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

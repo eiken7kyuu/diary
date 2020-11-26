@@ -18,7 +18,7 @@ namespace ProtectedDiary.Controllers
             return Challenge(
                 new AuthenticationProperties
                 {
-                    RedirectUri = "/",
+                    RedirectUri = $"https://{this.Request.Host}/",
                     IsPersistent = true
                 },
                 TwitterDefaults.AuthenticationScheme);
