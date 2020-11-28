@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProtectedDiary.Controllers
@@ -13,17 +14,21 @@ namespace ProtectedDiary.Controllers
         }
 
         [HttpGet("/auth/signin")]
-        public IActionResult SignIn()
+        public IActionResult SignIn(string returnUrl = null)
         {
-            return Challenge(
-                new AuthenticationProperties
-                {
-                    RedirectUri = $"https://{this.Request.Host}/",
-                    IsPersistent = true
-                },
-                TwitterDefaults.AuthenticationScheme);
+            if (!Url.IsLocalUrl(returnUrl))
+            {
+                returnUrl = "/";
+            }
+
+            return Challenge(new AuthenticationProperties
+            {
+                RedirectUri = $"https://{this.Request.Host}{returnUrl}",
+            },
+            TwitterDefaults.AuthenticationScheme);
         }
 
+        [Authorize]
         [HttpPost("/auth/signout")]
         public async Task<IActionResult> SignOut()
         {

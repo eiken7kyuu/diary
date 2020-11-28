@@ -35,6 +35,8 @@ namespace ProtectedDiary
         {
             var builder = services.AddRazorPages(options =>
             {
+                options.Conventions.AuthorizePage("/Diary");
+                options.Conventions.AuthorizePage("/UserDiaries");
                 options.Conventions.AuthorizeFolder("/Diaries");
             });
 
