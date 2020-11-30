@@ -3,7 +3,7 @@ const vClickOutside = require('v-click-outside');
 
 Vue.use(vClickOutside);
 new Vue({
-  el: '#submenu',
+  el: '#nav',
   data: {
     isActive: false,
   },

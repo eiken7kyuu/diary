@@ -5,57 +5,63 @@
   ViewData["Title"] = "Index";
 }
 
+<div class="profile">
+  <img class="icon" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon" width="104px" height="104px">
+  <span class="profile-name">
+    @Html.DisplayFor(model => model.Author.ScreenName)
+  </span>
+  <a href="https://twitter.com/@(Model.Author.ScreenName)" class="profile-social" target="_brank" rel="noopener">
+    <img src="~/content/twitter_social_icon.png" alt="twitter_social_icon" width="40" height="40">
+  </a>
+</div>
 
-
-@if (Model.Author.Relationship == AuthorRelationship.You || Model.Author.Relationship ==
-  AuthorRelationship.MutualFollowers)
-{
-  <h1>ユーザーの日記一覧</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>
-          @Html.DisplayNameFor(model => model.Diaries[0].Title)
-        </th>
-        <th>
-          @Html.DisplayNameFor(model => model.Diaries[0].CreatedAt)
-        </th>
-        <th>
-          @Html.DisplayNameFor(model => model.Diaries[0].UpdatedAt)
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
+<div class="diaries-area">
+  @if (Model.Author.Relationship == AuthorRelationship.You || Model.Author.Relationship ==
+    AuthorRelationship.MutualFollowers)
+  {
+    <ul class="diaries-body">
       @foreach (var diary in Model.Diaries)
       {
-        <tr>
-          <td>
-            @Html.DisplayFor(modelItem => diary.Title)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => diary.CreatedAt)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => diary.UpdatedAt)
-          </td>
-          <td>
-            <a asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id">日記を見る</a>
-          </td>
-          <td>
+        <li>
+          <div class="diaryList-item">
+            <a class="diaryList-link" asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id"></a>
+            <div class="diaryList-body">
+              <div class="diaryList-header">@Html.DisplayFor(modelItem =>
+                                           diary.Title)</div>
+              <div class="diaryList-date">投稿時間: @Html.DisplayFor(modelItem =>
+                                               diary.CreatedAt)</div>
+            </div>
             @if (Model.Author.Relationship == AuthorRelationship.You)
             {
-              <form class="form" asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
-                <delete-button></delete-button>
-              </form>
+              <div class="diaryList-edit">
+                <a class="button" asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
+              </div>
+
+              <div class="diaryList-delete">
+                <form class="form" asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
+                  <delete-button></delete-button>
+                </form>
+              </div>
             }
-            </td>
-          </tr>
+        </li>
       }
-    </tbody>
-  </table>
+    </ul>
+  }
+  else
+  {
+    <h1>相互フォローでないので見れません</h1>
+  }
+
+</div>
+
+@{
+  var prevDisabled = !Model.Diaries.HasPreviousPage ? "disabled" : "";
+  var nextDisabled = !Model.Diaries.HasNextPage ? "disabled" : "";
 }
-else
-{
-  <h1>相互フォローでないので見れません</h1>
-}
+
+<div class="pagination-block">
+  <a asp-page="/UserDiaries" class="button @prevDisabled" asp-route-userId="@Model.Author.Id"
+    asp-route-pageIndex="@(Model.Diaries.PageIndex - 1)">前ページ</a>
+  <a asp-page="/UserDiaries" class="button @nextDisabled" asp-route-userId="@Model.Author.Id"
+    asp-route-pageIndex="@(Model.Diaries.PageIndex + 1)">次ページ</a>
+</div>

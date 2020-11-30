@@ -1,5 +1,5 @@
 <template>
-  <button class="delete-button" type="submit" @click="onClick">日記削除</button>
+  <button class="button" type="submit" @click="onClick">削除</button>
 </template>
 
 <script lang="ts">

@@ -10,21 +10,20 @@
 </head>
 
 <body>
-
     <header class="header">
-        <div class="container">
+        <div class="header-container">
             <div class="header-contents">
                 <div class="logo">
                     <a asp-page="/Index">限定公開日記</a>
                 </div>
-                <nav class="nav">
+                <nav class="nav" id="nav">
                     <ul>
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <a asp-page="/Diaries/New">投稿</a>
                             </li>
-                            <li class="nav-item" id="submenu" @@click="openSubmenu" v-click-outside="close">
+                            <li class="nav-item" @@click="openSubmenu" v-click-outside="close">
                                 <a>@this.User.Claims.ScreenName()</a>
                                 <ul class="submenu" :class="{ 'active': isActive }">
                                     <li class="submenu-item">
@@ -50,12 +49,11 @@
         </div>
     </header>
 
-    <div class="container">
-        <main id="app">
+    <main class="main" id="app">
+        <div class="container">
             @RenderBody()
-        </main>
-    </div>
-
+        </div>
+    </main>
     <footer></footer>
 </body>
 

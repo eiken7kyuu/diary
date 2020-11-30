@@ -6,16 +6,14 @@
     var tweetUrl = $"https://twitter.com/intent/tweet?text=日記を投稿しました！&url=https://{this.Request.Host}{Url.Page("../Diary", new { userId = Model.UserId, id = Model.Id })}";
 }
 
-<div class="posted-inner">
-    <h1 class="posted-header">投稿完了！</h1>
+<h1 class="posted-header">投稿完了！</h1>
 
-    <div>
-        <div class="posted-buttons">
-            <a href="@tweetUrl" class="button" target="_brank" rel="noopener">ツイートする</a>
-        </div>
-        <div class="posted-buttons">
-            <a class="button" asp-page="../UserDiaries" asp-route-userId="@Model.UserId">日記一覧へ</a>
-            <a class="button" asp-page="../Diary" asp-route-userId="@Model.UserId" asp-route-id="@Model.Id">日記を見る</a>
-        </div>
+<div>
+    <div class="posted-buttons">
+        <a href="@tweetUrl" class="button" target="_brank" rel="noopener">ツイートする</a>
+    </div>
+    <div class="posted-buttons">
+        <a class="button" asp-page="../UserDiaries" asp-route-userId="@Model.UserId">日記一覧へ</a>
+        <a class="button" asp-page="../Diary" asp-route-userId="@Model.UserId" asp-route-id="@Model.Id">日記を見る</a>
     </div>
 </div>

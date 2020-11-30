@@ -1,3 +1,4 @@
+@use 'var' as *;
 $headerColor: #fff;
 
 @mixin link-hover {
@@ -9,6 +10,10 @@ $headerColor: #fff;
   background: $headerColor;
   border-bottom: solid 1px #e6e6e6;
   box-shadow: 0 0 1px rgba(34, 34, 34, 0.377);
+
+  .header-container {
+    @include container;
+  }
 
   .header-contents {
     display: flex;
@@ -92,4 +97,5 @@ $headerColor: #fff;
       padding: 10px;
     }
   }
+  
 }
