@@ -1,6 +1,5 @@
-
-
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProtectedDiary.Models;
 
@@ -17,39 +16,38 @@ namespace ProtectedDiary.Data
                 return;
             }
 
-            var createdAt = DateTime.Parse("2020-08-31");
-            var diaries = new Diary[]
-            {
-                new Diary {
-                    Id = 1000001,
-                    UserId = 1300782624927961090,
-                    Title = "8/31",
-                    Content = "テスト投稿1",
-                    CreatedAt = createdAt,
-                    UpdatedAt = createdAt
-                },
-
-                new Diary {
-                    Id = 1000002,
-                    UserId = 1300782624927961090,
-                    Title = "9/1",
-                    Content = "テスト投稿2",
-                    CreatedAt = createdAt.AddDays(1),
-                    UpdatedAt = createdAt.AddDays(1)
-                },
-
-                new Diary {
-                    Id = 1000003,
-                    UserId = 1300782624927961090,
-                    Title = "9/2",
-                    Content = "テスト投稿3",
-                    CreatedAt = createdAt.AddDays(2),
-                    UpdatedAt = createdAt.AddDays(2)
-                },
-            };
-
-            context.Diaries.AddRange(diaries);
+            context.Diaries.AddRange(CreateTestDiaries());
             context.SaveChanges();
+        }
+
+        public static IEnumerable<Diary> CreateTestDiaries()
+        {
+            var createdAt = DateTime.Parse("2020-04-01");
+            var diaries = new List<Diary>();
+            for (var i = 1; i < 100; i++)
+            {
+                var d = new Diary
+                {
+                    UserId = 1300782624927961090,
+                    Title = $"テスト投稿{i}",
+                    Content = $"テスト投稿{i}",
+                    CreatedAt = createdAt.AddDays(i),
+                    UpdatedAt = createdAt.AddDays(i)
+                };
+
+                var d2 = new Diary
+                {
+                    UserId = 1300783116328382464,
+                    Title = $"テスト投稿{i}",
+                    Content = $"テスト投稿{i}",
+                    CreatedAt = createdAt.AddDays(i),
+                    UpdatedAt = createdAt.AddDays(i)
+                };
+                diaries.Add(d);
+                diaries.Add(d2);
+            }
+
+            return diaries;
         }
     }
 }
