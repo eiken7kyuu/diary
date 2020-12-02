@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -59,10 +55,10 @@ namespace ProtectedDiary
 
             builder.AddRazorPagesOptions(options =>
             {
-                options.Conventions.AddPageRoute("/UserDiaries", "/{userId?}");
-                options.Conventions.AddPageRoute("/Diary", "/{userId?}/diaries/{id?}");
-                options.Conventions.AddPageRoute("/Diaries/Edit", "/diaries/{id?}/Edit");
-                options.Conventions.AddPageRoute("/Diaries/Delete", "/diaries/{id?}/Delete");
+                options.Conventions.AddPageRoute("/UserDiaries", "/{userId:long}");
+                options.Conventions.AddPageRoute("/Diary", "/{userId:long}/diaries/{id:long}");
+                options.Conventions.AddPageRoute("/Diaries/Edit", "/diaries/{id:long}/Edit");
+                options.Conventions.AddPageRoute("/Diaries/Delete", "/diaries/{id:long}/Delete");
             });
 
             var twitterConfig = new TwitterConfiguration(Configuration["ConsumerKey"], Configuration["ConsumerSecret"]);
@@ -116,10 +112,11 @@ namespace ProtectedDiary
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error/Error");
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Error/StatusError", "?code={0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -5,10 +5,18 @@ namespace ProtectedDiary.Models
         public long Id { get; }
         public string ScreenName { get; }
         public string IconUrl { get; }
+        private bool _followedBy { get; }
+        private bool _following { get; }
 
-        public AuthorRelationship Relationship { get; set; }
+        public bool IsMutualFollowers => _followedBy && _following;
 
-        public Author(long id, string screenName, string iconUrl) =>
-            (Id, ScreenName, IconUrl) = (id, screenName, iconUrl);
+        public Author(TwitterUser user, bool followedBy, bool following)
+        {
+            Id = user.Id;
+            ScreenName = user.ScreenName;
+            IconUrl = user.IconUrl;
+            _followedBy = followedBy;
+            _following = following;
+        }
     }
 }

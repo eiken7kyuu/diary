@@ -1,40 +1,37 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ProtectedDiary.Models;
-using ProtectedDiary.TwitterAuth;
 
 namespace ProtectedDiary.Services
 {
     public class AuthorRequester : IAuthorRequester
     {
         private ITwitterApi _twitterApi;
+        private readonly ILogger<AuthorRequester> _logger;
 
-        public AuthorRequester(ITwitterApi twitterApi)
+
+        public AuthorRequester(ITwitterApi twitterApi, ILogger<AuthorRequester> logger)
         {
             _twitterApi = twitterApi;
+            _logger = logger;
         }
 
         public async Task<Author> GetAuthor(long userId, IEnumerable<Claim> claims)
         {
-            var author = await _twitterApi.GetUser(userId, claims);
-            author.Relationship = await GetAuthorRelationship(userId, claims);
-            return author;
-        }
-
-        private async Task<AuthorRelationship> GetAuthorRelationship(long diaryUserId, IEnumerable<Claim> claims)
-        {
-            if (diaryUserId == claims.UserId())
+            try
             {
-                return AuthorRelationship.You;
+                var user = await _twitterApi.GetUser(userId, claims);
+                (var followedBy, var following) = await _twitterApi.GetRelationship(userId, claims);
+                return new Author(user, followedBy, following);
             }
-
-            (var followedBy, var following) = await _twitterApi.GetRelationship(diaryUserId, claims);
-            return followedBy && following
-                ? AuthorRelationship.MutualFollowers
-                : AuthorRelationship.NotMutualFollowers;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return null;
+            }
         }
     }
 }

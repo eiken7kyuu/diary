@@ -27,18 +27,18 @@ namespace ProtectedDiary.Services
             return new TwitterClient(credentials);
         }
 
-        public async Task<(bool, bool)> GetRelationship(long diaryUserId, IEnumerable<Claim> claims)
+        public async Task<(bool, bool)> GetRelationship(long targetUserId, IEnumerable<Claim> claims)
         {
             var client = CreateTwitterClient(claims);
-            var relationship = await client.Users.GetRelationshipBetweenAsync(claims.UserId(), diaryUserId);
+            var relationship = await client.Users.GetRelationshipBetweenAsync(claims.UserId(), targetUserId);
             return (relationship.FollowedBy, relationship.Following);
         }
 
-        public async Task<Author> GetUser(long userId, IEnumerable<Claim> claims)
+        public async Task<TwitterUser> GetUser(long userId, IEnumerable<Claim> claims)
         {
             var client = CreateTwitterClient(claims);
             var user = await client.Users.GetUserAsync(userId);
-            return new Author(user.Id, user.ScreenName, user.ProfileImageUrl400x400);
+            return new TwitterUser(user.Id, user.ScreenName, user.ProfileImageUrl400x400);
         }
     }
 }

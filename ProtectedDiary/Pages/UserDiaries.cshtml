@@ -16,42 +16,33 @@
 </div>
 
 <div class="diaries-area">
-  @if (Model.Author.Relationship == AuthorRelationship.You || Model.Author.Relationship ==
-    AuthorRelationship.MutualFollowers)
-  {
-    <ul class="diaries-body">
-      @foreach (var diary in Model.Diaries)
-      {
-        <li>
-          <div class="diaryList-item">
-            <a class="diaryList-link" asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id"></a>
-            <div class="diaryList-body">
-              <div class="diaryList-header">@Html.DisplayFor(modelItem =>
+  <ul class="diaries-body">
+    @foreach (var diary in Model.Diaries)
+    {
+      <li>
+        <div class="diaryList-item">
+          <a class="diaryList-link" asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id"></a>
+          <div class="diaryList-body">
+            <div class="diaryList-header">@Html.DisplayFor(modelItem =>
                                            diary.Title)</div>
-              <div class="diaryList-date">投稿時間: @Html.DisplayFor(modelItem =>
+            <div class="diaryList-date">投稿時間: @Html.DisplayFor(modelItem =>
                                                diary.CreatedAt)</div>
+          </div>
+          @if (Model.Author.Id == this.User.Claims.UserId())
+          {
+            <div class="diaryList-edit">
+              <a class="button" asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
             </div>
-            @if (Model.Author.Relationship == AuthorRelationship.You)
-            {
-              <div class="diaryList-edit">
-                <a class="button" asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
-              </div>
 
-              <div class="diaryList-delete">
-                <form class="form" asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
-                  <delete-button></delete-button>
-                </form>
-              </div>
-            }
-        </li>
-      }
-    </ul>
-  }
-  else
-  {
-    <h1>相互フォローでないので見れません</h1>
-  }
-
+            <div class="diaryList-delete">
+              <form class="form" asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
+                <delete-button></delete-button>
+              </form>
+            </div>
+          }
+      </li>
+    }
+  </ul>
 </div>
 
 @{

@@ -8,6 +8,6 @@ namespace ProtectedDiary.Services
     public interface ITwitterApi
     {
         Task<(bool, bool)> GetRelationship(long userId, IEnumerable<Claim> claims);
-        Task<Author> GetUser(long userId, IEnumerable<Claim> claims);
+        Task<TwitterUser> GetUser(long userId, IEnumerable<Claim> claims);
     }
 }

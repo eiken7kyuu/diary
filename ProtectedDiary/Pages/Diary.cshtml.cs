@@ -1,34 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ProtectedDiary.Data;
 using ProtectedDiary.Models;
+using ProtectedDiary.PageModels;
 using ProtectedDiary.Services;
-using ProtectedDiary.TwitterAuth;
-using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace ProtectedDiary.Pages
 {
-    public class DiaryModel : PageModel
+    public class DiaryModel : AuthorPageModel
     {
-        private readonly DiaryContext _context;
-        private readonly IAuthorRequester _authorRequester;
-
-
-        public DiaryModel(DiaryContext context, IAuthorRequester authorRequester)
-        {
-            _context = context;
-            _authorRequester = authorRequester;
-        }
+        public DiaryModel(DiaryContext context, IAuthorRequester authorRequester) : base(context, authorRequester) { }
 
         public Diary Diary { get; set; }
-        public Author Author { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? userId, long? id)
         {
@@ -37,7 +21,8 @@ namespace ProtectedDiary.Pages
                 return NotFound();
             }
 
-            Diary = await _context.Diaries.FirstOrDefaultAsync(x => x.Id == id);
+            Diary = await _context.Diaries
+                .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
 
             if (Diary == null)
             {
