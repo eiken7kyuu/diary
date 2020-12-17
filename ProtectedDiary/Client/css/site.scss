@@ -1,42 +1,35 @@
 @charset "utf-8";
-@use "../node_modules/modern-css-reset/dist/reset.min.css";
 @use 'var' as *;
+@use 'media' as *;
 
-html {
-  font-size: 62.5%;
-}
 
-body {
-  font-size: 1.2rem;
-  font-family: "游ゴシック体", "Yu Gothic", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, sans-serif;
-  color: #5c5c5c;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  padding: 0;
-  appearance: none;
-
-  &:hover {
-    cursor: pointer;
-  }
+[v-cloak] {
+  display: none;
 }
 
 .container {
-  @include container;
-  margin-top: 40px;
+  width: 100%;
+  max-width: map-get($layout, content-max-width);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 3rem;
+
+  @include media-breakpoint-down(md) {
+    padding: 0 1rem;
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: 0 1.5rem;
+  }
+}
+
+.main {
+  margin-top: 4rem;
   margin-bottom: 60px;
+
+  @include media-breakpoint-down(md) {
+    margin-top: 2rem;
+  }
 }
 
 .text-center {

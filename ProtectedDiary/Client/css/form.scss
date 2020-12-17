@@ -1,18 +1,32 @@
+@use 'media' as *;
+@use 'var' as *;
+
 .form {
   text-align: center;
   margin: 0 auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 750px;
+  }
 }
 
 .input-content, 
 .input-title {
-  border: 2px solid #dbdbdb;
-  border-radius: 0.3em;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  line-height: 1.5;
+  padding: 4px 8px;
+  vertical-align: top;
 
   &:focus {
-    outline: 0;
-    border-color: #3273dc;
-    box-shadow: 0 0 0 0.125em rgba(50,115,220,.25);
-    border-radius: 0.3em;
+    outline: none;
+    border: 1px solid #a8abb1;
+  }
+
+  &:hover {
+    border: 1px solid #a8abb1;
   }
 }
 
@@ -22,39 +36,49 @@
   width: 100%;
   text-align: left;
   font-size: 1.7rem;
-  color: #fa3333
+  color: #fa3333;
+  @include media-breakpoint-down(md) {
+    font-size: 1.2rem;
+  }
 }
 
 .input-title {
   display: inline-block;
-  font-size: 3rem;
+  font-size: 2.5rem;
   width: 100%;
-  font-weight: 500;
   letter-spacing: 0.06em;
+
+  @include media-breakpoint-down(md) {
+    font-size: 2rem;
+  }
 }
 
 .input-content {
   display: block;
   width: 100%;
-  height: 600px;
+  height: 95%;
   font-size: 1.7rem;
   resize: none;
 }
 
-.title-field,
-.content-field {
-  margin-top: 40px;
-}
-
-.title-field {
-  height: 70px;
+.title-field, .submit-field {
+  height: 0;
+  flex-grow: 1;
 }
 
 .content-field {
-  height: 630px;
+  height: 0;
+  flex-grow: 4;
+  @include media-breakpoint-down(md) {
+    flex-grow: 3;
+  }
 }
 
 .submit-field {
   margin-top: 25px;
-  text-align: right;
+  align-self: flex-end;
+
+  @include media-breakpoint-down(md) {
+    flex-grow: 4;
+  }
 }

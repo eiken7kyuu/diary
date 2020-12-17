@@ -1,4 +1,7 @@
 @use 'var' as *;
+@use 'media' as *;
+@use 'image' as *;
+
 $headerColor: #fff;
 
 @mixin link-hover {
@@ -11,20 +14,63 @@ $headerColor: #fff;
   border-bottom: solid 1px #e6e6e6;
   box-shadow: 0 0 1px rgba(34, 34, 34, 0.377);
 
-  .header-container {
-    @include container;
-  }
-
   .header-contents {
     display: flex;
     justify-content: space-between;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
   }
 }
 
 .logo {
-  font-weight: 600;
+  font-weight: map-get($base, font-weight-bold);
   font-size: 3rem;
-  margin: auto 0;
+  height: map-get($layout, header-height);
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  @include media-breakpoint-down(md) {
+    height: map-get($layout, header-height-sm);
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+
+  > ul {
+    display: flex;
+    align-items: center;
+    height: map-get($layout, header-height);
+
+    @include media-breakpoint-down(md) { 
+      height: map-get($layout, header-height-sm);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .nav-item {
+    position: relative;
+    display: inline-block;
+    max-width: 190px;
+    font-size: 2rem;
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+
+    > a:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .submenu {
@@ -32,9 +78,21 @@ $headerColor: #fff;
   position: absolute;
   box-shadow: 0 1px 2px rgba(34,34,34,.25), 0 0 1px rgba(34,34,34,.35);
   border-bottom-style: none;
-  display: none;
+  top: 40px;
+  display: block;
   left: calc(50% - 75px);
   background-color: $headerColor;
+  z-index: 100;
+
+  &.allow-right {
+    top: 34px;
+    right: -8px;
+    left: auto;
+
+    &::before {
+      right: 16px;
+    }
+  }
 
   &::before {
     position: absolute;
@@ -55,19 +113,24 @@ $headerColor: #fff;
 
   .submenu-item {
     font-size: 1.7rem;
-    padding: 3px;
     position: relative;
+
+    > a {
+      display: block;
+      width: 100%;
+      padding: 13px;
+    }
 
     &:hover {
       @include link-hover;
     }
 
-    .signout-button {
+    .submit-button {
       text-align: left;
       background-color: $headerColor;
       width: 100%;
-      padding: 10px;
       color: inherit;
+      padding: 13px;
 
       &:hover {
         @include link-hover;
@@ -76,26 +139,16 @@ $headerColor: #fff;
   }
 }
 
-.nav {
-  display: flex;
-  align-items: center;
+.post-link {
+  .edit {
+    margin-right: 5px;
+    font-size: 20px;
+  }
+  > a {
+    width: 120px;
 
-  .nav-item {
-    position: relative;
-    display: inline-block;
-    max-width: 190px;
-    font-size: 2rem;
-    margin: 0 10px;
-
-    > a:hover {
-      text-decoration: underline;
-    }
-
-    a {
-      display: inline-block;
-      width: 100%;
-      padding: 10px;
+    &:hover {
+      text-decoration: none !important;
     }
   }
-  
 }

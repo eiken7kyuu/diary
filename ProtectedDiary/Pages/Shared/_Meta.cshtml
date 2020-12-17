@@ -1,0 +1,16 @@
+@{
+    var baseurl = $"{Context.Request.Scheme}://{Context.Request.Host}";
+    var currentUrl = $"{baseurl}{Context.Request.Path}{Context.Request.QueryString}";
+}
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="@ViewData["Description"]" />
+<meta property="og:url" content="@currentUrl" />
+<meta property="og:title" content="@ViewData["Title"]" />
+<meta property="og:type" content="website">
+<meta property="og:description" content="@ViewData["Title"]" />
+<meta property="og:site_name" content="限定公開日記" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="@ViewData["Title"]" />
+<meta name="twitter:description" content="@ViewData["Description"]" />

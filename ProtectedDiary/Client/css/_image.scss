@@ -1,0 +1,11 @@
+@use "var" as *;
+
+.image--md {
+  width: map-get($image, width);
+}
+.image--sm {
+  width: map-get($image, width-sm);
+}
+.image--xs {
+  width: map-get($image, width-xs);
+}

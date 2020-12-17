@@ -2,11 +2,11 @@
 @model ProtectedDiary.Pages.UserDiariesModel
 
 @{
-  ViewData["Title"] = "Index";
+  ViewData["Title"] = $"日記一覧 | {@Model.Author.ScreenName}";
 }
 
 <div class="profile">
-  <img class="icon" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon" width="104px" height="104px">
+  <img class="icon image--sm" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon">
   <span class="profile-name">
     @Html.DisplayFor(model => model.Author.ScreenName)
   </span>
@@ -16,7 +16,7 @@
 </div>
 
 <div class="diaries-area">
-  <ul class="diaries-body">
+  <ul role="list" class="diaries-body">
     @foreach (var diary in Model.Diaries)
     {
       <li>
@@ -39,6 +39,20 @@
                 <delete-button></delete-button>
               </form>
             </div>
+
+            <sub-menu tag-name="i" class-name="material-icons ellipsis" allow-type="allow-right">
+              <template v-slot:header>more_horiz</template>
+              <template v-slot:main>
+                <menu-item>
+                  <a asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
+                </menu-item>
+                <menu-item>
+                  <form asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
+                    <delete-button class-name="submit-button"></delete-button>
+                  </form>
+                </menu-item>
+              </template>
+            </sub-menu>
           }
       </li>
     }

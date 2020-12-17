@@ -2,59 +2,63 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - ProtectedDiary</title>
+    <partial name="_Meta" view-data="ViewData" />
+    <title>@ViewData["Title"] - 限定公開日記</title>
     <link rel="stylesheet" href="~/css/site.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="~/js/bundle.js"></script>
 </head>
 
 <body>
-    <header class="header">
-        <div class="header-container">
-            <div class="header-contents">
-                <div class="logo">
-                    <a asp-page="/Index">限定公開日記</a>
-                </div>
-                <nav class="nav" id="nav">
-                    <ul>
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a asp-page="/Diaries/New">投稿</a>
-                            </li>
-                            <li class="nav-item" @@click="openSubmenu" v-click-outside="close">
-                                <a>@this.User.Claims.ScreenName()</a>
-                                <ul class="submenu" :class="{ 'active': isActive }">
-                                    <li class="submenu-item">
-                                        <a asp-page="/UserDiaries" asp-route-userId="@this.User.Claims.UserId()">日記</a>
-                                    </li>
-                                    <li class="submenu-item">
-                                        <form method="post" asp-controller="Authentication" asp-action="SignOut">
-                                            <button class="signout-button" type="submit">サインアウト</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a asp-controller="Authentication" asp-action="SignIn">サインイン</a>
-                            </li>
-                        }
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <div id="root" v-cloak>
+        <header class="header">
+            <div class="container">
+                <div class="header-contents">
+                    <div class="logo">
+                        <a asp-page="/Index">限定公開日記</a>
+                    </div>
+                    <nav class="nav" id="nav">
+                        <ul role="list">
+                            @if (this.User.Identity.IsAuthenticated)
+                            {
 
-    <main class="main" id="app">
-        <div class="container">
-            @RenderBody()
-        </div>
-    </main>
-    <footer></footer>
+                                <sub-menu tag-name="li" class-name="nav-item">
+                                    <template v-slot:header><a>@this.User.Claims.ScreenName()</a></template>
+                                    <template v-slot:main>
+                                        <menu-item>
+                                            <a asp-page="/UserDiaries" asp-route-userId="@this.User.Claims.UserId()">日記</a>
+                                        </menu-item>
+                                        <menu-item>
+                                            <form method="post" asp-controller="Authentication" asp-action="SignOut">
+                                                <button class="submit-button" type="submit">サインアウト</button>
+                                            </form>
+                                        </menu-item>
+                                    </template>
+                                </sub-menu>
+                                <li class="nav-item post-link">
+                                    <a class="button button-submit" asp-page="/Diaries/New"><i
+                                            class="material-icons edit">edit</i>投稿</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a asp-controller="Authentication" asp-action="SignIn">サインイン</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main id="app" class="main">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </main>
+        <footer></footer>
+    </div>
 </body>
 
 </html>

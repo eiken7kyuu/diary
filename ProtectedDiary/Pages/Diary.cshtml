@@ -2,7 +2,8 @@
 @model ProtectedDiary.Pages.DiaryModel
 
 @{
-    ViewData["Title"] = "Diary";
+    ViewData["Title"] = $"{@Model.Diary.Title} | {@Model.Author.ScreenName}";
+    var tweetUrl = $"https://twitter.com/intent/tweet?text={@Model.Diary.Title}&url=https://{this.Request.Host}{Url.Page("./Diary", new { userId = Model.Diary.UserId, id = Model.Diary.Id })}";
 }
 
 <h1 class="diary-title">@Html.DisplayFor(model => model.Diary.Title)</h1>
@@ -10,8 +11,7 @@
 <section class="diary-info">
     <div class="author">
         <a asp-page="UserDiaries" asp-route-userId="@Model.Diary.UserId">
-            <img class="icon" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon" width="50"
-                height="50">
+            <img class="icon image--xs" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon">
         </a>
         <div class="author-detail">
             <a asp-page="UserDiaries" asp-route-userId="@Model.Diary.UserId"
@@ -31,3 +31,9 @@
 </section>
 
 <section class="diary-content">@Html.DisplayFor(model => model.Diary.Content)</section>
+
+<section class="diary-footer">
+    <a class="twitter-share-button" href="@tweetUrl" target="_brank" rel="noopener">
+        <img src="~/content/Twitter_Logo_Blue.png" alt="twitter_share_button" width="45" height="45">
+    </a>
+</section>

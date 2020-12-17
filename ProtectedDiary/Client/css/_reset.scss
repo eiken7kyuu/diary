@@ -1,0 +1,112 @@
+@use 'var' as *;
+
+@mixin block-elements {
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  hr,
+  blockquote,
+  figure,
+  pre,
+  .highlighter-rouge,
+  ul,
+  ol,
+  dl,
+  dd,
+  table,
+  .footnotes {
+    @content;
+  }
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@include block-elements() {
+  padding: 0;
+  margin: 0 0;
+}
+
+input, textarea {
+  -webkit-appearance: none; /* fix iOS don't display box-shadow properly */
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html {
+  scroll-behavior: smooth;
+  font-size: map-get($base, font-size-root);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Set core body defaults */
+body {
+  font-size: 1.2rem;
+  font-family: $bodyFont;
+  color: $baseFontColor;
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
+  &:not([class]) {
+    text-decoration-skip-ink: auto;
+  }
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border-width: 0;
+  outline: none;
+  border: none;
+  appearance: none;
+  cursor: pointer;
+}
