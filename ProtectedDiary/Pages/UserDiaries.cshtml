@@ -1,9 +1,18 @@
 @page
 @model ProtectedDiary.Pages.UserDiariesModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
   ViewData["Title"] = $"日記一覧 | {@Model.Author.ScreenName}";
 }
+
+@functions{
+  public string GetAntiXsrfRequestToken()
+  {
+    return Xsrf.GetAndStoreTokens(HttpContext).RequestToken;
+  }
+}
+
 
 <div class="profile">
   <img class="icon image--sm" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon">
@@ -35,9 +44,7 @@
             </div>
 
             <div class="diaryList-delete">
-              <form class="form" asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
-                <delete-button></delete-button>
-              </form>
+              <delete-button csrf-token="@GetAntiXsrfRequestToken()" diary-id="@diary.Id"></delete-button>
             </div>
 
             <sub-menu tag-name="i" class-name="material-icons ellipsis" allow-type="allow-right">
@@ -47,9 +54,8 @@
                   <a asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
                 </menu-item>
                 <menu-item>
-                  <form asp-page="Diaries/Delete" asp-route-id="@diary.Id" method="post">
-                    <delete-button class-name="submit-button"></delete-button>
-                  </form>
+                  <delete-button class-name="submit-button" csrf-token="@GetAntiXsrfRequestToken()" diary-id="@diary.Id">
+                  </delete-button>
                 </menu-item>
               </template>
             </sub-menu>

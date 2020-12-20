@@ -1,5 +1,5 @@
 <template>
-  <button :class="this.className" type="submit" @click="onClick">削除</button>
+  <button :class="this.className" type="button" @click="onClick">削除</button>
 </template>
 
 <script lang="ts">
@@ -10,12 +10,24 @@ export default class DeleteButton extends Vue {
   @Prop({ default: 'button' })
   className!: string;
 
-  onClick (event: Event): void {
-    if (confirm('日記を削除します\nよろしいですか？')) {
-      return;
-    }
+  @Prop({ required: true })
+  csrfToken!: string;
 
-    event.preventDefault();
+  @Prop({ required: true })
+  diaryId!: string;
+
+  async onClick (event: Event): Promise<void> {
+    if (confirm('日記を削除します\nよろしいですか？')) {
+        const result = await fetch(`/diaries/${this.diaryId}/delete`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-TOKEN': this.csrfToken
+          },
+        });
+
+        window.location.href = result.url;
+    }
   }
 }
 </script>

@@ -102,6 +102,8 @@ namespace ProtectedDiary
                 options.LoginPath = "/auth/signin";
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
+
+            services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
