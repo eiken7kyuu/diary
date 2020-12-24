@@ -2,15 +2,18 @@ using System;
 using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProtectedDiary.Data;
+using ProtectedDiary.Middleware;
 using ProtectedDiary.Services;
 using ProtectedDiary.TwitterAuth;
 
@@ -106,7 +109,7 @@ namespace ProtectedDiary
             services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
         {
             if (env.IsDevelopment())
             {
@@ -126,6 +129,7 @@ namespace ProtectedDiary
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseAntiforgeryToken();
 
             app.UseEndpoints(endpoints =>
             {

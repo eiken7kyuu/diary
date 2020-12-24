@@ -33,9 +33,9 @@
           <a class="diaryList-link" asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id"></a>
           <div class="diaryList-body">
             <div class="diaryList-header">@Html.DisplayFor(modelItem =>
-                                           diary.Title)</div>
+            diary.Title)</div>
             <div class="diaryList-date">投稿時間: @Html.DisplayFor(modelItem =>
-                                               diary.CreatedAt)</div>
+            diary.CreatedAt)</div>
           </div>
           @if (Model.Author.Id == this.User.Claims.UserId())
           {
@@ -44,7 +44,8 @@
             </div>
 
             <div class="diaryList-delete">
-              <delete-button csrf-token="@GetAntiXsrfRequestToken()" diary-id="@diary.Id"></delete-button>
+              <delete-button diary-title="@diary.Title" diary-id="@diary.Id">
+              </delete-button>
             </div>
 
             <sub-menu tag-name="i" class-name="material-icons ellipsis" allow-type="allow-right">
@@ -54,7 +55,7 @@
                   <a asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
                 </menu-item>
                 <menu-item>
-                  <delete-button class-name="submit-button" csrf-token="@GetAntiXsrfRequestToken()" diary-id="@diary.Id">
+                  <delete-button class-name="submit-button" diary-title="@diary.Title" diary-id="@diary.Id">
                   </delete-button>
                 </menu-item>
               </template>
@@ -76,3 +77,6 @@
   <a asp-page="/UserDiaries" class="button @nextDisabled" asp-route-userId="@Model.Author.Id"
     asp-route-pageIndex="@(Model.Diaries.PageIndex + 1)">次ページ</a>
 </div>
+
+
+<diary-delete-modal></diary-delete-modal>

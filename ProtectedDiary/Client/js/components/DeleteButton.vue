@@ -4,6 +4,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { mapMutations, mapState } from 'vuex';
+import { diaryModule } from '../store/modules/diary';
+import { modalModule } from '../store/modules/modal';
 
 @Component
 export default class DeleteButton extends Vue {
@@ -11,23 +14,14 @@ export default class DeleteButton extends Vue {
   className!: string;
 
   @Prop({ required: true })
-  csrfToken!: string;
-
-  @Prop({ required: true })
   diaryId!: string;
 
-  async onClick (event: Event): Promise<void> {
-    if (confirm('日記を削除します\nよろしいですか？')) {
-        const result = await fetch(`/diaries/${this.diaryId}/delete`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRF-TOKEN': this.csrfToken
-          },
-        });
+  @Prop({ required: true })
+  diaryTitle!: string;
 
-        window.location.href = result.url;
-    }
+  onClick (event: Event): void {
+    modalModule.open();
+    diaryModule.addDiaryInfo({ id: this.diaryId, title: this.diaryTitle });
   }
 }
 </script>

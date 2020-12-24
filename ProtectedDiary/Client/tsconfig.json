@@ -9,6 +9,14 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "js/*"
+            ]
+        },
     },
     "include": [
         "js/**/*"
