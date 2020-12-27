@@ -35,7 +35,7 @@ namespace ProtectedDiary.Pages
             var diaries = _context.Diaries.Where(d => d.UserId == userId).OrderByDescending(x => x.CreatedAt);
             Diaries = await PaginatedList<Diary>.CreateAsync(diaries.AsNoTracking(), pageIndex, _pageSize);
 
-            Author = await _authorRequester.GetAuthor(nonNullUserId, this.User.Claims);
+            Author = await _authorRequester.GetAuthor(nonNullUserId);
             return Page();
         }
     }

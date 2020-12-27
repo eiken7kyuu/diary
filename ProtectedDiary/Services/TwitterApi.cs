@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using ProtectedDiary.Models;
 using ProtectedDiary.TwitterAuth;
 using Tweetinvi;
@@ -11,9 +12,15 @@ namespace ProtectedDiary.Services
     public class TwitterApi : ITwitterApi
     {
         private readonly TwitterConfiguration _twitterConfig;
-        public TwitterApi(TwitterConfiguration twitterConfig)
+        private readonly TwitterClient _client;
+        private readonly long _myUserId;
+
+        public TwitterApi(TwitterConfiguration twitterConfig, IHttpContextAccessor httpContextAccessor)
         {
             _twitterConfig = twitterConfig;
+            var claims = httpContextAccessor.HttpContext.User.Claims;
+            _client = CreateTwitterClient(claims);
+            _myUserId = claims.UserId();
         }
 
         private TwitterClient CreateTwitterClient(IEnumerable<Claim> claims)
@@ -27,17 +34,15 @@ namespace ProtectedDiary.Services
             return new TwitterClient(credentials);
         }
 
-        public async Task<(bool, bool)> GetRelationship(long targetUserId, IEnumerable<Claim> claims)
+        public async Task<(bool, bool)> GetRelationship(long targetUserId)
         {
-            var client = CreateTwitterClient(claims);
-            var relationship = await client.Users.GetRelationshipBetweenAsync(claims.UserId(), targetUserId);
+            var relationship = await _client.Users.GetRelationshipBetweenAsync(_myUserId, targetUserId);
             return (relationship.FollowedBy, relationship.Following);
         }
 
-        public async Task<TwitterUser> GetUser(long userId, IEnumerable<Claim> claims)
+        public async Task<TwitterUser> GetUser(long userId)
         {
-            var client = CreateTwitterClient(claims);
-            var user = await client.Users.GetUserAsync(userId);
+            var user = await _client.Users.GetUserAsync(userId);
             return new TwitterUser(user.Id, user.ScreenName, user.ProfileImageUrl400x400);
         }
     }

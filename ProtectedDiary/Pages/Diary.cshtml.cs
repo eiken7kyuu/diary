@@ -29,7 +29,7 @@ namespace ProtectedDiary.Pages
                 return NotFound();
             }
 
-            Author = await _authorRequester.GetAuthor(Diary.UserId, this.User.Claims);
+            Author = await _authorRequester.GetAuthor(Diary.UserId);
             return Page();
         }
     }

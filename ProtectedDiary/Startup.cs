@@ -66,6 +66,7 @@ namespace ProtectedDiary
 
             var twitterConfig = new TwitterConfiguration(Configuration["ConsumerKey"], Configuration["ConsumerSecret"]);
             services.AddSingleton(twitterConfig);
+            services.AddHttpContextAccessor();
             services.AddTransient<ITwitterApi, TwitterApi>();
             services.AddTransient<IAuthorRequester, AuthorRequester>();
 

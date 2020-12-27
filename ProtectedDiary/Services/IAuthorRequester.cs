@@ -7,6 +7,6 @@ namespace ProtectedDiary.Services
 {
     public interface IAuthorRequester
     {
-        Task<Author> GetAuthor(long userId, IEnumerable<Claim> claims);
+        Task<Author> GetAuthor(long userId);
     }
 }

@@ -19,12 +19,12 @@ namespace ProtectedDiary.Services
             _logger = logger;
         }
 
-        public async Task<Author> GetAuthor(long userId, IEnumerable<Claim> claims)
+        public async Task<Author> GetAuthor(long userId)
         {
             try
             {
-                var user = await _twitterApi.GetUser(userId, claims);
-                (var followedBy, var following) = await _twitterApi.GetRelationship(userId, claims);
+                var user = await _twitterApi.GetUser(userId);
+                (var followedBy, var following) = await _twitterApi.GetRelationship(userId);
                 return new Author(user, followedBy, following);
             }
             catch (Exception ex)
