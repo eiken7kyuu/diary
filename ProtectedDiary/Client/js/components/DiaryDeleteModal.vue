@@ -46,7 +46,7 @@ export default class DiaryDeleteModal extends Vue {
 
   close() {
     modalModule.close();
-    diaryModule.reset();
+    setTimeout(diaryModule.reset, 200);
   }
 
   async deleteDiary() {
