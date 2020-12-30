@@ -1,5 +1,5 @@
 <template>
-  <Modal @close="close" v-if="active">
+  <Modal @close="close" v-show="active">
     <template #header>
       <div>日記の削除</div>
     </template>
@@ -8,8 +8,13 @@
     </template>
     <template #footer>
       <div>
-        <button @click="close" class="button">キャンセル</button>
-        <button @click="deleteDiary" class="button delete">削除する</button>
+        <input type="button" @click="close" class="button" value="キャンセル" />
+        <input
+          type="button"
+          @click="deleteDiary"
+          class="button delete"
+          value="削除する"
+        />
       </div>
     </template>
   </Modal>
@@ -28,8 +33,8 @@ import { diaryModule } from '../store/modules/diary';
 
 export default class DiaryDeleteModal extends Vue {
   get active() {
-     return modalModule.active;
-   }
+    return modalModule.active;
+  }
 
   get title() {
     return diaryModule.title;
@@ -60,7 +65,7 @@ export default class DiaryDeleteModal extends Vue {
   color: #fa3333;
 }
 
-button {
+input[type="button"] {
   font-size: 1.5rem;
   width: 130px;
 }
