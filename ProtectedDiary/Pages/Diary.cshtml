@@ -30,7 +30,7 @@
     }
 </section>
 
-<section class="diary-content">@Html.DisplayFor(model => model.Diary.Content)</section>
+<section class="diary-content">@Html.Raw(Model.Diary.Content)</section>
 
 <section class="diary-footer">
     <a class="twitter-share-button" href="@tweetUrl" target="_brank" rel="noopener">

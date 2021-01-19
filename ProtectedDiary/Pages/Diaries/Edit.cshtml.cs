@@ -1,27 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ProtectedDiary.Data;
+using ProtectedDiary.Helpers;
 using ProtectedDiary.Models;
+using ProtectedDiary.PageModels;
 using ProtectedDiary.TwitterAuth;
 
 namespace ProtectedDiary.Pages.Diaries
 {
-    public class EditModel : PageModel
+    public class EditModel : PostPageModel
     {
-        private readonly DiaryContext _context;
-
-        public EditModel(DiaryContext context)
+        public EditModel(DiaryContext context, IConfiguration configuration, Sanitizer sanitizer)
+         : base(context, configuration, sanitizer)
         {
-            _context = context;
         }
-
-        [BindProperty]
-        public Diary Diary { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -53,6 +51,7 @@ namespace ProtectedDiary.Pages.Diaries
                 return NotFound();
             }
 
+            Diary.Content = _sanitizer.Sanitize(Diary.Content);
             try
             {
                 diaryToUpdate.UpdatedAt = DateTime.Now;

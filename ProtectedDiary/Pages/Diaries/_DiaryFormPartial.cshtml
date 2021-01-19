@@ -1,25 +1,9 @@
-@model ProtectedDiary.Models.Diary
+@model ProtectedDiary.PageModels.PostPageModel
 
+@{
+    var title = Model?.Diary?.Title ?? "";
+    var content = Model?.Diary?.Content ?? "";
+}
 <div class="form">
-    <validator-group inline-template>
-        <form id="postForm" method="post" v-on:submit="validate">
-            <validator value="@Model?.Title" inline-template>
-                <div class="title-field">
-                    <input asp-for="Title" class="input-title" ref="field" v-model="val">
-                    <span class="text-danger" asp-validation-for="Title" ref="message"></span>
-                </div>
-            </validator>
-            <validator value="@Model?.Content" inline-template>
-                <div class="content-field">
-                    <textarea asp-for="Content" class="input-content" ref="field" v-model="val"></textarea>
-                    <span class="text-danger" asp-validation-for="Content" ref="message"></span>
-                </div>
-            </validator>
-            <div class="submit-field">
-                <button class="button button-submit" type="submit">@ViewData["SubmitButtonText"]</button>
-            </div>
-        </form>
-    </validator-group>
-
-    <reload-alert></reload-alert>
+    <post-form p-title="@title" p-content="@content" tiny-api-key="@Model.TinymceApiKey"></post-form>
 </div>

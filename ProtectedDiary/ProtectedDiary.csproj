@@ -5,6 +5,7 @@
     <UserSecretsId>19d02de6-638b-4c04-81bc-ec645676cd16</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="5.0.372" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">

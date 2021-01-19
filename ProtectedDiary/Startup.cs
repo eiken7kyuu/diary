@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProtectedDiary.Data;
+using ProtectedDiary.Helpers;
 using ProtectedDiary.Middleware;
 using ProtectedDiary.Services;
 using ProtectedDiary.TwitterAuth;
@@ -66,6 +67,7 @@ namespace ProtectedDiary
 
             var twitterConfig = new TwitterConfiguration(Configuration["ConsumerKey"], Configuration["ConsumerSecret"]);
             services.AddSingleton(twitterConfig);
+            services.AddSingleton(new Sanitizer());
             services.AddHttpContextAccessor();
             services.AddTransient<ITwitterApi, TwitterApi>();
             services.AddTransient<IAuthorRequester, AuthorRequester>();
@@ -125,12 +127,20 @@ namespace ProtectedDiary
             app.UseStatusCodePagesWithReExecute("/Error/StatusError", "?code={0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+
+
 
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseAntiforgeryToken();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                await next();
+            });
 
             app.UseEndpoints(endpoints =>
             {

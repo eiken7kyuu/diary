@@ -1,33 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using ProtectedDiary.Data;
+using ProtectedDiary.Helpers;
 using ProtectedDiary.Models;
+using ProtectedDiary.PageModels;
 using ProtectedDiary.TwitterAuth;
 
 namespace ProtectedDiary.Pages.Diaries
 {
-    public class CreateModel : PageModel
+    public class CreateModel : PostPageModel
     {
-        private readonly DiaryContext _context;
-
-        public CreateModel(DiaryContext context)
+        public CreateModel(DiaryContext context, IConfiguration configuration, Sanitizer sanitizer)
+         : base(context, configuration, sanitizer)
         {
-            _context = context;
         }
 
         public IActionResult OnGet()
         {
             return Page();
         }
-
-        [BindProperty]
-        public Diary Diary { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -36,6 +28,7 @@ namespace ProtectedDiary.Pages.Diaries
                 return Page();
             }
 
+            Diary.Content = _sanitizer.Sanitize(Diary.Content);
             Diary.UserId = this.User.Claims.UserId();
             _context.Diaries.Add(Diary);
             await _context.SaveChangesAsync();

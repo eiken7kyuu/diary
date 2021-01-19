@@ -20,6 +20,13 @@
   margin-top: 50px;
   white-space: pre-wrap;
   word-break: break-all;
+
+  a {
+    color: #0366d6;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .diary-createdAt {
