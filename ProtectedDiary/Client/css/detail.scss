@@ -146,12 +146,14 @@
 
 .diaryList-body {
   margin-left: 30px;
+  min-width: 0;
   flex: 1 1 auto;
 
   .diaryList-header {
     font-size: 2rem;
     font-weight: map-get($base, font-weight-bold);
     margin-bottom: 4px;
+
     @include media-breakpoint-down(md) {
       font-size: 1.5rem;
     }
