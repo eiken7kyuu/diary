@@ -58,8 +58,10 @@ body {
   font-family: $bodyFont;
   color: $baseFontColor;
   min-height: 100vh;
+  font-weight: 400;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  letter-spacing: 0.05em;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
