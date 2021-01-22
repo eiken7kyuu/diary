@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +47,7 @@ namespace ProtectedDiary
             }
             else
             {
+                // heroku用の設定
                 var uri = new Uri(Configuration["DATABASE_URL"]);
                 var userInfo = uri.UserInfo.Split(":");
                 (var user, var password) = (userInfo[0], userInfo[1]);
@@ -129,18 +129,10 @@ namespace ProtectedDiary
             app.UseStaticFiles();
             app.UseRouting();
 
-
-
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseAntiforgeryToken();
-
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-                await next();
-            });
+            app.UseCustomHeader();
 
             app.UseEndpoints(endpoints =>
             {
