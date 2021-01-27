@@ -15,8 +15,11 @@ namespace ProtectedDiary.Middleware
 
         public Task Invoke(HttpContext context)
         {
-            context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-            context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+            if (context.Response.StatusCode == 200)
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+            }
             return _next(context);
         }
     }
