@@ -30,7 +30,7 @@ namespace ProtectedDiary.Controllers
 
         [Authorize]
         [HttpPost("/auth/signout")]
-        public async Task<IActionResult> SignOut()
+        public new async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToPage("/Index");
