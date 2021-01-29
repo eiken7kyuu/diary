@@ -26,7 +26,7 @@ namespace ProtectedDiary.Pages.Diaries
                 return NotFound();
             }
 
-            Diary = await _context.Diaries.FirstOrDefaultAsync(m => m.Id == id);
+            Diary = await _context.Diaries.FindAsync(id);
 
             if (Diary == null)
             {

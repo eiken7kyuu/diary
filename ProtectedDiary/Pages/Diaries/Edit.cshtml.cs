@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +26,7 @@ namespace ProtectedDiary.Pages.Diaries
                 return NotFound();
             }
 
-            Diary = await _context.Diaries.FirstOrDefaultAsync(m => m.Id == id);
-
+            Diary = await _context.Diaries.FindAsync(id);
             if (Diary == null || Diary.UserId != this.User.Claims.UserId())
             {
                 return NotFound();
