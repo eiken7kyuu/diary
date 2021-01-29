@@ -6,11 +6,11 @@ using ProtectedDiary.Models;
 using ProtectedDiary.PageModels;
 using ProtectedDiary.Services;
 
-namespace ProtectedDiary.Pages
+namespace ProtectedDiary.Pages.Diaries
 {
-    public class DiaryModel : AuthorPageModel
+    public class DetailModel : AuthorPageModel
     {
-        public DiaryModel(DiaryContext context, IAuthorRequester authorRequester) : base(context, authorRequester) { }
+        public DetailModel(DiaryContext context, IAuthorRequester authorRequester) : base(context, authorRequester) { }
 
         public Diary Diary { get; set; }
 

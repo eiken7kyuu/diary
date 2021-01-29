@@ -56,7 +56,7 @@ namespace ProtectedDiary.Pages.Diaries
                     d => d.Title, d => d.Content, d => d.UpdatedAt))
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToPage("../Diary", new { id = diaryToUpdate.Id, userId = diaryToUpdate.UserId });
+                    return RedirectToPage("Detail", new { id = diaryToUpdate.Id, userId = diaryToUpdate.UserId });
                 }
             }
             catch (DbUpdateConcurrencyException)
@@ -71,7 +71,7 @@ namespace ProtectedDiary.Pages.Diaries
                 }
             }
 
-            return RedirectToPage("../UserDiaries", new { userId = Diary.UserId });
+            return RedirectToPage("Index", new { userId = Diary.UserId });
         }
 
         private bool DiaryExists(long id)

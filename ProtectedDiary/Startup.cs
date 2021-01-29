@@ -34,8 +34,6 @@ namespace ProtectedDiary
         {
             var builder = services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizePage("/Diary");
-                options.Conventions.AuthorizePage("/UserDiaries");
                 options.Conventions.AuthorizeFolder("/Diaries");
             });
 
@@ -56,14 +54,6 @@ namespace ProtectedDiary
                 var connStr = $"Host={uri.Host};Port={uri.Port};Database={db};Username={user};Password={password};Enlist=true";
                 services.AddDbContext<DiaryContext>(options => options.UseNpgsql(connStr));
             }
-
-            builder.AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AddPageRoute("/UserDiaries", "/{userId:long}");
-                options.Conventions.AddPageRoute("/Diary", "/{userId:long}/diaries/{id:long}");
-                options.Conventions.AddPageRoute("/Diaries/Edit", "/diaries/{id:long}/Edit");
-                options.Conventions.AddPageRoute("/Diaries/Delete", "/diaries/{id:long}/Delete");
-            });
 
             var twitterConfig = new TwitterConfiguration(Configuration["ConsumerKey"], Configuration["ConsumerSecret"]);
             services.AddSingleton(twitterConfig);

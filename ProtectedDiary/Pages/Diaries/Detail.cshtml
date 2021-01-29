@@ -1,20 +1,20 @@
-@page ""
-@model ProtectedDiary.Pages.DiaryModel
+@page "/{userId:long}/diaries/{id:long}"
+@model ProtectedDiary.Pages.Diaries.DetailModel
 
 @{
     ViewData["Title"] = $"{@Model.Diary.Title} | {@Model.Author.ScreenName}";
-    var tweetUrl = $"https://twitter.com/intent/tweet?text={@Model.Diary.Title}&url=https://{this.Request.Host}{Url.Page("./Diary", new { userId = Model.Diary.UserId, id = Model.Diary.Id })}";
+    var tweetUrl = $"https://twitter.com/intent/tweet?text={@Model.Diary.Title}&url=https://{this.Request.Host}{Url.Page("./Detail", new { userId = Model.Diary.UserId, id = Model.Diary.Id })}";
 }
 
 <h1 class="diary-title">@Html.DisplayFor(model => model.Diary.Title)</h1>
 
 <section class="diary-info">
     <div class="author">
-        <a asp-page="UserDiaries" asp-route-userId="@Model.Diary.UserId">
+        <a asp-page="Index" asp-route-userId="@Model.Diary.UserId">
             <img class="icon image--xs" src="@Html.DisplayFor(model => model.Author.IconUrl)" alt="icon">
         </a>
         <div class="author-detail">
-            <a asp-page="UserDiaries" asp-route-userId="@Model.Diary.UserId"
+            <a asp-page="Index" asp-route-userId="@Model.Diary.UserId"
                     class="author-name">@Html.DisplayFor(model =>
                                     model.Author.ScreenName)</a>
             <time class="diary-createdAt" datetime="@Html.DisplayFor(model => model.Diary.CreatedAt)">
@@ -25,7 +25,7 @@
     @if (Model.Author.Id == this.User.Claims.UserId())
     {
         <div>
-            <a class="button" asp-page="/Diaries/Edit" asp-route-id="@Model.Diary.Id">編集</a>
+            <a class="button" asp-page="Edit" asp-route-id="@Model.Diary.Id">編集</a>
         </div>
     }
 </section>

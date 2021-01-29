@@ -9,16 +9,16 @@ using ProtectedDiary.Models;
 using ProtectedDiary.PageModels;
 using ProtectedDiary.Services;
 
-namespace ProtectedDiary.Pages
+namespace ProtectedDiary.Pages.Diaries
 {
-    public class UserDiariesModel : AuthorPageModel
+    public class IndexModel : AuthorPageModel
     {
-        private readonly ILogger<UserDiariesModel> _logger;
+        private readonly ILogger<IndexModel> _logger;
         private readonly int _pageSize = 20;
 
         public PaginatedList<Diary> Diaries { get; set; }
 
-        public UserDiariesModel(ILogger<UserDiariesModel> logger,
+        public IndexModel(ILogger<IndexModel> logger,
             DiaryContext context,
             IAuthorRequester authorRequester) : base(context, authorRequester)
         {

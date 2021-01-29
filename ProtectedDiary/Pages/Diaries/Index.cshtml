@@ -1,5 +1,6 @@
-@page
-@model ProtectedDiary.Pages.UserDiariesModel
+@page "/{userId:long}"
+
+@model ProtectedDiary.Pages.Diaries.IndexModel
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
@@ -30,7 +31,7 @@
     {
       <li>
         <div class="diaryList-item">
-          <a class="diaryList-link" asp-page="/Diary" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id"></a>
+          <a class="diaryList-link" asp-page="Detail" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id"></a>
           <div class="diaryList-body">
             <div class="diaryList-header">@Html.DisplayFor(modelItem =>
             diary.Title)</div>
@@ -40,7 +41,7 @@
           @if (Model.Author.Id == this.User.Claims.UserId())
           {
             <div class="diaryList-edit">
-              <a class="button" asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
+              <a class="button" asp-page="Edit" asp-route-id="@diary.Id">編集</a>
             </div>
 
             <div class="diaryList-delete">
@@ -52,7 +53,7 @@
               <template v-slot:header>more_horiz</template>
               <template v-slot:main>
                 <menu-item>
-                  <a asp-page="/Diaries/Edit" asp-route-id="@diary.Id">編集</a>
+                  <a asp-page="Edit" asp-route-id="@diary.Id">編集</a>
                 </menu-item>
                 <menu-item>
                   <delete-button class-name="submit-button" diary-title="@diary.Title" diary-id="@diary.Id">
@@ -72,9 +73,9 @@
 }
 
 <div class="pagination-block">
-  <a asp-page="/UserDiaries" class="button @prevDisabled" asp-route-userId="@Model.Author.Id"
+  <a asp-page="Index" class="button @prevDisabled" asp-route-userId="@Model.Author.Id"
     asp-route-pageIndex="@(Model.Diaries.PageIndex - 1)">前ページ</a>
-  <a asp-page="/UserDiaries" class="button @nextDisabled" asp-route-userId="@Model.Author.Id"
+  <a asp-page="Index" class="button @nextDisabled" asp-route-userId="@Model.Author.Id"
     asp-route-pageIndex="@(Model.Diaries.PageIndex + 1)">次ページ</a>
 </div>
 

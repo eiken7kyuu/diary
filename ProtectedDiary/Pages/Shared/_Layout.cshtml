@@ -26,7 +26,8 @@
                                     <template v-slot:header><a>@this.User.Claims.ScreenName()</a></template>
                                     <template v-slot:main>
                                         <menu-item>
-                                            <a asp-page="/UserDiaries" asp-route-userId="@this.User.Claims.UserId()">日記</a>
+                                            <a asp-page="/Diaries/Index"
+                                                asp-route-userId="@this.User.Claims.UserId()">日記</a>
                                         </menu-item>
                                         <menu-item>
                                             <form method="post" asp-controller="Authentication" asp-action="SignOut">
