@@ -4,10 +4,10 @@ COPY ./Client .
 RUN npm install
 RUN npm run build
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS publish
+FROM mcr.microsoft.com/dotnet/sdk:5.0.102-ca-patch-buster-slim AS publish
 WORKDIR "/src/ProtectedDiary"
 COPY . .
 COPY --from=client /wwwroot ./wwwroot
