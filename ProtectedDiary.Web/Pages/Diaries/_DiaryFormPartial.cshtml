@@ -1,0 +1,8 @@
+@model ProtectedDiary.Web.PageModels.PostPageModel
+@{
+    var title = Model?.Diary?.Title ?? "";
+    var content = Model?.Diary?.Content ?? "";
+}
+<div class="form">
+    <post-form p-title="@title" p-content="@content" tiny-api-key="@Model.TinymceApiKey"></post-form>
+</div>
