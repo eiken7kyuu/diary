@@ -1,0 +1,21 @@
+@page
+@model ProtectedDiary.Web.Pages.Diaries.PostedModel
+
+@{
+    ViewData["Title"] = "投稿完了";
+    var diary = Model.Diary;
+    var tweetText = $"日記を投稿しました！ {diary.Title}&url=https://{this.Request.Host}{Url.Page("Detail", new { userId = diary.UserId, id = diary.Id })}";
+    var tweetUrl = $"https://twitter.com/intent/tweet?text={tweetText}";
+}
+
+<h1 class="posted-header">投稿完了！</h1>
+
+<div>
+    <div class="posted-buttons">
+        <a href="@tweetUrl" class="button" target="_brank" rel="noopener">ツイートする</a>
+    </div>
+    <div class="posted-buttons">
+        <a class="button" asp-page="Index" asp-route-userId="@diary.UserId">日記一覧へ</a>
+        <a class="button" asp-page="Detail" asp-route-userId="@diary.UserId" asp-route-id="@diary.Id">日記を見る</a>
+    </div>
+</div>
